@@ -16,6 +16,12 @@
       body {
         padding-top: 60px;
       }
+      
+		.tab-content > #tab2.active {
+			display: block;
+			padding: 2px;
+		}
+      
     </style>
     <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -49,20 +55,58 @@
     </div>
 
     <div class="container">
+		<div class="tabbable"> <!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab1" data-toggle="tab">Dashboard</a></li>
+				<li id="maptab"><a href="#tab2" data-toggle="tab">Search</a></li>
+				<li><a href="#tab3" data-toggle="tab">Details</a></li>
+			</ul>
+		    <div class="tab-content">
+		    	<div class="tab-pane active" id="tab1">
 
- 
-       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="well">
-        <h1>Hi, let's talk about buildings!</h1>
-           <p>We could have a list and map of buildings, possibly with additional contextual layers like NABERS ratings, Green Star buildings etc .. Clicking on a building will bring the data feeds (link to data analysis) and energy efficiency projects undertaken (link to projects).</p>
-		 <p>TODO: a few pointers here for page first time users</p>
-		 <p>TODO: once this header size is stable, modify the variable that adjusts the size of the map to the remainder of the space</p>
-		 <p>TODO: some form of search at the top</p>
-      </div>
+					<!-- Main hero unit for a primary marketing message or call to action -->
+					<div class="well">
+						<h1>Buildings are for people</h1>
+					</div>
 
-      <hr>
+					<div class="row">
+						<div class="span4"><div class="well"><h2>News 1</h2></div></div>
+						<div class="span4"><div class="well"><h2>News 2</h2></div></div>
+						<div class="span4"><div class="well"><h2>News 3</h2></div></div>
+					</div>
 
-        <div id="map" class="smallmap"></div>
+					<div class="row">
+						<div class="span4"><div class="well"><h2>Recent activity 1</h2></div></div>
+						<div class="span4"><div class="well"><h2>Recent activity 2</h2></div></div>
+						<div class="span4"><div class="well"><h2>Recent activity 3</h2></div></div>
+					</div>
+
+					<div class="row">
+						<div class="span4"><div class="well"><h2>Featured</h2></div></div>
+						<div class="span4"><div class="well"><h2>Ranking</h2></div></div>
+						<div class="span4"><div class="well"><h2>Tip of the day</h2></div></div>
+					</div>
+					
+					
+					
+	    		</div>
+
+		    	<div class="tab-pane" id="tab2">
+					<div class="well">
+						A search box with suggestions at the top
+					</div>
+					<div id="map" class="smallmap" style="width:1040px;height:1000px"></div>
+				</div>
+
+		    	<div class="tab-pane" id="tab3">
+		    		<div class="well">
+						Building details when one (or several have been selected)
+					</div>
+				</div>
+    		</div>
+    	</div>
+
+					
 
       <hr>
         
@@ -82,16 +126,22 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 	<script src="../bootstrap/js/bootstrap.js"></script>
     <script>
+
 		$(document).ready(function () {
+			// The map can only properly initialise if the height and width of the div are set (in the style attribute)
+			// This is because the div is nested into a non-visible div (at page load) and a vector layer is being added
+			init();
+			
 			var rsz = function(){
 				var h = $(window).height();
-				$("#map").css('height',h-430);
+				var w = $(window).width();
+				$("#map").css('height',h-280);
+				$("#map").css('width','100%');
 			};
+
 			rsz();
 			$(window).resize(rsz);
-
-			// Once size is known, we instantiate the map			
-			init();
+			
 		});
 	</script>
 

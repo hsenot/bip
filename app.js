@@ -1,14 +1,14 @@
-var map, layer, geojson_layer, styleBuilding;
+var map,layer, geojson_layer;
  
 OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '2';
  
 function init(){
-	map = new OpenLayers.Map( 'map');
+	map = new OpenLayers.Map('map');
 	
 	// OSM layer
 	layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
 	map.addLayer(layer);
-	
+
 	// GeoJSON building layer
 	geojson_layer = new OpenLayers.Layer.Vector("GeoJSON", {
 		strategies: [new OpenLayers.Strategy.Fixed()],
