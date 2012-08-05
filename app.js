@@ -26,11 +26,11 @@ function init(){
 	
 	
 	// OSM layer
-	layer = new OpenLayers.Layer.OSM("Simple OSM Map");
+	layer = new OpenLayers.Layer.OSM("Open Street Map");
 	map.addLayer(layer);
 
 	// Vector building layer
-	wfs_layer = new OpenLayers.Layer.Vector("WFS layer", {
+	wfs_layer = new OpenLayers.Layer.Vector("Buildings (clickable)", {
 		strategies: [new OpenLayers.Strategy.BBOX()],
 		protocol: new OpenLayers.Protocol.WFS({
 			version: "1.1.0",
@@ -96,6 +96,11 @@ function init(){
 		
 	};
 
+	// Function called when hovering outside a building
+	var reportOut = function(){
+		$("#current_building").html("");
+	};
+
 	// Highlight control            
 	var highlightCtrl = new OpenLayers.Control.SelectFeature(wfs_layer, {
 		hover: true,
@@ -104,7 +109,7 @@ function init(){
 		eventListeners: {
 			beforefeaturehighlighted: report,
 			featurehighlighted: report,
-			featureunhighlighted: report
+			featureunhighlighted: reportOut
 		}
 	});
 	
@@ -119,8 +124,8 @@ function init(){
 	highlightCtrl.activate();
 	selectCtrl.activate();
 
+	// Set map center on Melbourne Uni
 	map.setCenter(
-		// Melbourne Uni
 		new OpenLayers.LonLat(144.96, -37.8).transform(
 			new OpenLayers.Projection("EPSG:4326"),
 			map.getProjectionObject()
