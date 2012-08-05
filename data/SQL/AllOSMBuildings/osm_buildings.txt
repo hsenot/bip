@@ -41,22 +41,22 @@ osm2pgsql -d temp_osm
 
 OSM buildings table (the content of a view can not be dumped):
 
-psql -d temp_osm -c "create table osm_buildings as select osm_id,building,man_made,name,way as the_geom from planet_osm_polygon where building is not null"
+sudo -u postgres psql -d temp_osm -c "create table osm_buildings as select osm_id,building,man_made,name,way as the_geom from planet_osm_polygon where building is not null"
 
 
 Dump the OSM building view into file
 
-pg_dump -p 54321 -t osm_buildings osm_aus > buildings.sql
+sudo -u postgres pg_dump -p 54321 -t osm_buildings osm_aus > buildings.sql
 
 
 Drop the destination table
 
-psql -d buildinggis -c "drop table osm_buildings"
+sudo -u postgres psql -d buildinggis -c "drop table osm_buildings"
 
 
 Reload the table in the database
 
-psql -d buildinggis -f buildings.sql
+sudo -u postgres psql -f buildings.sql -d buildinggis
 
 
 Create a spatial index on it
