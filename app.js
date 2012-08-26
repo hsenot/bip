@@ -98,7 +98,7 @@ function init(){
 
 	// Function called when hovering outside a building
 	var reportOut = function(){
-		$("#current_building").html("");
+		$("#current_building").html("&nbsp;");
 	};
 
 	// Highlight control            
