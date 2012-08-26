@@ -1,4 +1,4 @@
-var map,layer,wfs_layer,building_layer,thresholdWFS=16;
+var olmap,layer,wfs_layer,building_layer,thresholdWFS=16;
 
 
 // Adding a proxy to use WFS features from another server
@@ -11,7 +11,7 @@ function init(){
 	// Some options are required to display a WMS on top of OSM
 	// https://github.com/openlayers/openlayers/issues/350
 	
-	map = new OpenLayers.Map('map',{
+	olmap = new OpenLayers.Map('map',{
     	projection: new OpenLayers.Projection("EPSG:900913"),
     	units: "m",
     	maxResolution: 156543.0339,
@@ -27,7 +27,7 @@ function init(){
 	
 	// OSM layer
 	layer = new OpenLayers.Layer.OSM("Open Street Map");
-	map.addLayer(layer);
+	olmap.addLayer(layer);
 
 	// Vector building layer
 	wfs_layer = new OpenLayers.Layer.Vector("Buildings (clickable)", {
@@ -49,32 +49,32 @@ function init(){
 	);
 
 	// Managing switch between WFS and WMS, depending on zoom level
-	map.events.register("zoomend", this, function (e) {
-    	if (map.getZoom() >= thresholdWFS) {
+	olmap.events.register("zoomend", this, function (e) {
+    	if (olmap.getZoom() >= thresholdWFS) {
 			// Close-up: we need WFS
-        	if (map.getLayerIndex(wfs_layer)==-1)
-			{map.addLayer(wfs_layer);wfs_layer.refresh({force:true});}
+        	if (olmap.getLayerIndex(wfs_layer)==-1)
+			{olmap.addLayer(wfs_layer);wfs_layer.refresh({force:true});}
 
 			// Buildings are clickable! Inform the user
 			$("#current_building").html("Click on a building for more detail");
 
 			// And we can get rid of the WMS layer
-        	if (map.getLayerIndex(building_layer)>-1)
- 			{map.removeLayer(building_layer);}
+        	if (olmap.getLayerIndex(building_layer)>-1)
+ 			{olmap.removeLayer(building_layer);}
 			
     	}
     	else
     	{
     		// Removing the WFS layer
-        	if (map.getLayerIndex(wfs_layer)>-1)
-			{map.removeLayer(wfs_layer);}
+        	if (olmap.getLayerIndex(wfs_layer)>-1)
+			{olmap.removeLayer(wfs_layer);}
 
 			// Display a message to say the buildings are not clickable
 			$("#current_building").html("Zoom in to be able to click on buildings");
 
 			// Bringing the WMS layer into play
-        	if (map.getLayerIndex(building_layer)==-1)
-			{map.addLayer(building_layer);}
+        	if (olmap.getLayerIndex(building_layer)==-1)
+			{olmap.addLayer(building_layer);}
 			
     	}
 	});
@@ -118,17 +118,17 @@ function init(){
 		{clickout: true}
 	);
 
-	map.addControl(highlightCtrl);
-	map.addControl(selectCtrl);
+	olmap.addControl(highlightCtrl);
+	olmap.addControl(selectCtrl);
 
 	highlightCtrl.activate();
 	selectCtrl.activate();
 
 	// Set map center on Melbourne Uni
-	map.setCenter(
+	olmap.setCenter(
 		new OpenLayers.LonLat(144.96, -37.8).transform(
 			new OpenLayers.Projection("EPSG:4326"),
-			map.getProjectionObject()
+			olmap.getProjectionObject()
 		), 17
 	);
 }
