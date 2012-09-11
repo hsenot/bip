@@ -1,4 +1,5 @@
-socialbim
-=========
+bip - building improvement platform
+===================================
 
-A platform to interact with building information management systems, socially
+Check out the wiki for a project overview:
+https://github.com/hsenot/bip/wiki
