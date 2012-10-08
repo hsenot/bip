@@ -107,6 +107,20 @@ function init(){
 	var reportOut = function(){
 		$("#current_building").html("&nbsp;");
 	};
+	
+	var showDetails = function(){
+		// Show details tab
+		$("#detailsTabLabel").show();
+		$("#mapTabLabel").removeClass('active');
+		$("#detailsTabLabel").addClass('active');
+		$("#mapTab").removeClass('active');
+		$("#detailsTab").addClass('active');
+	};
+
+	var hideDetails = function(){
+		// Hide details tab
+		$("#detailsTabLabel").hide();
+	};
 
 	// Highlight control            
 	var highlightCtrl = new OpenLayers.Control.SelectFeature(wfs_layer, {
@@ -114,16 +128,20 @@ function init(){
 		highlightOnly: true,
 		renderIntent: "temporary",
 		eventListeners: {
-			beforefeaturehighlighted: report,
+//			beforefeaturehighlighted: report,
 			featurehighlighted: report,
 			featureunhighlighted: reportOut
 		}
 	});
 	
 	// Select control
-	var selectCtrl = new OpenLayers.Control.SelectFeature(wfs_layer,
-		{clickout: true}
-	);
+	var selectCtrl = new OpenLayers.Control.SelectFeature(wfs_layer,{
+		clickout: true,
+		eventListeners: {
+			featurehighlighted: showDetails,
+			featureunhighlighted: hideDetails
+		}
+	});
 
 	olmap.addControl(highlightCtrl);
 	olmap.addControl(selectCtrl);

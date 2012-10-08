@@ -66,7 +66,8 @@
 		<div class="tabbable"> <!-- Only required for left/right tabs -->
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#tab1" data-toggle="tab">Dashboard</a></li>
-				<li id="maptab"><a href="#tab2" data-toggle="tab">Search</a></li>
+				<li id="mapTabLabel"><a href="#mapTab" data-toggle="tab">Search</a></li>
+				<li id="detailsTabLabel" class="hide"><a href="#detailsTab" data-toggle="tab">Details</a></li>
 			</ul>
 		    <div class="tab-content">
 		    	<div class="tab-pane active" id="tab1">
@@ -83,25 +84,15 @@
 					</div>
 
 					<div class="row">
-						<div class="span4"><div class="well"><h2>Recent activity 1</h2></div></div>
-						<div class="span4"><div class="well"><h2>Recent activity 2</h2></div></div>
-						<div class="span4"><div class="well"><h2>Recent activity 3</h2></div></div>
-					</div>
-
-					<div class="row">
 						<div class="span4"><div class="well"><h2>Average / median</h2></div></div>
 						<div class="span4"><div class="well"><h2>Ranking</h2></div></div>
 						<div class="span4"><div class="well"><h2>Tip of the day</h2></div></div>
 					</div>
 					
-					
-					
 	    		</div>
 
-		    	<div class="tab-pane" id="tab2">
+		    	<div class="tab-pane" id="mapTab">
 
-					<div class="row">
-						<div class="span6">
 							<div class="well" id="search_box" style="text-align: center">
 								<form class="form-search">
 									<input type="text" class="input-large search-query">
@@ -109,11 +100,11 @@
 									<p id="current_building"></p>
 								</form>
 							</div>
-							<div id="map" class="smallmap">
-							</div>
-						</div>
+							<div id="map" class="smallmap"></div>
 
-						<div class="span6">
+	    		</div>
+
+		    	<div class="tab-pane" id="detailsTab">
 							<div class="well" id="building_details">
 								<div class="row">
 									<div class="span2">
@@ -194,8 +185,8 @@
 									</div>
 								</div>
 							</div>
-						</div>
 					</div>
+
 				</div>
     		</div>
     	</div>
@@ -237,16 +228,17 @@
 				var w = $(window).width();
 				var tw;
 
-				// Debug display
-				// $("#search_box").html('Total: '+w+' px, map: '+$("#map").width()+' px');
+				// Debug display for map size
+				//$("#search_box").html('Total: '+w+' px, map: '+$("#map").width()+' px');
 				
 				// Setting height to window height minus the header and footer sizes
 				$("#map").css('height',h-280);
 
 				// Setting width to a size following the liquid layout breaks
-				if (w>=1200){tw = 569;}
-				if (w<1200){tw = 459;}
-				if (w<980){tw = 351;}
+				if (w>=1200){tw = 569*2;}
+				if (w<1200){tw = 459*2;}
+				if (w<980){tw = 351*2;}
+				if (w<745){tw = w-45;}
 				$("#map").css('width', tw);
 			};
 
@@ -254,7 +246,7 @@
 			rsz();
 
 			// Initialising the map when the map tab is clicked for the first time
-			$('#maptab').click(function(){
+			$('#mapTabLabel').click(function(){
 				if (!(olmap))
 				{
 					// Initialising sequence
