@@ -2,7 +2,14 @@ var olmap,layer,wfs_layer,building_layer,thresholdWFS=16;
 
 
 // Adding a proxy to use WFS features from another server
-OpenLayers.ProxyHost = "/geoexplorer/proxy?url=";
+if (window.location.host.substring(0,9) == "localhost")
+{
+	OpenLayers.ProxyHost = "/geoexplorer/proxy?url=";
+}
+else
+{
+	OpenLayers.ProxyHost = "/bip/proxy.php?url=";
+}
 
 OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '2';
  
