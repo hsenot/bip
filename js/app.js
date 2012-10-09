@@ -128,7 +128,6 @@ function init(){
 		highlightOnly: true,
 		renderIntent: "temporary",
 		eventListeners: {
-//			beforefeaturehighlighted: report,
 			featurehighlighted: report,
 			featureunhighlighted: reportOut
 		}
