@@ -14,9 +14,17 @@ $err_email = "hsenot@gmail.com";
 
 # Retrive URL arguments
 try {
-	$format = $_REQUEST['format'];
-	$osm_id = $_REQUEST['osm_id'];
-	if (empty($format)) { $format = 'json'; }
+
+	if (isset($_REQUEST['format'])) 
+	{ $format = $_REQUEST['format'];}
+	else
+	{ $format = 'json'; }
+	
+	if (isset($_REQUEST['osm_id'])) 
+	{ $osm_id = $_REQUEST['osm_id'];}
+	else 
+	{ trigger_error("Caught Exception: the web service requires a parameter: osm_id", E_USER_ERROR);}
+
 } 
 catch (Exception $e) {
     trigger_error("Caught Exception: " . $e->getMessage(), E_USER_ERROR);
