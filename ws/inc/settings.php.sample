@@ -1,0 +1,9 @@
+<?php
+
+$conn_str = "pgsql:host=;dbname=;port=";
+
+$conn_user = "";
+
+$conn_pwd = "";
+
+?>
