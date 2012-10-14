@@ -17,7 +17,6 @@ CREATE DATABASE bip
 CREATE TABLE building
 (
   osm_id integer NOT NULL,
-  "name" character varying(128),
   built_year character(4),
   height_above_ground_floors integer,
   height_above_ground_m integer,
