@@ -107,54 +107,17 @@
 		    	<div class="tab-pane" id="detailsTab">
 							<div class="well" id="building_details">
 								<div class="row">
-									<div class="span2">
-										<img id="buildingPhotoThumb" src="img/ch2.jpg" class="img-polaroid" width=200 />
-										
-										<div class="modal hide fade" id="buildingPhotoDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-											<div class="modal-header">
-												<h3 id="myModalLabel">Council House 2</h3>
-											</div>
-											<div class="modal-body">
-												<img src="img/ch2.jpg" class="img-polaroid" />
-											</div>
-										</div>
-										
-									</div>
 									<div class="span3">
-										<form>
-											<legend><h2>Council House 2</h2></legend>
-											Also known as: CH2
-											<br>Permanent ID: 123456 (with permalink)
+										<form id='buildingDetailsForm'>
+											<legend><h2>Building name</h2></legend>
 										<form>
 									</div>
 								</div>
 								<div class="row">
 									<div class="span5">
 										<form>
-											<legend>Construction details</legend>
-											Built in: 2001
-											<br>By:
-											<br>Height
-											<br>Structural details:
-											<br>Mean number of users:
-										</form>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span5">
-										<form>
-											<legend>Control details</legend>
-											Owned by:
-											<br>Operated by:
-										</form>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span5">
-										<form>
-											<legend>Energy efficiency</legend>
-											Certification (as badges)
-											<br>Projects:
+											<legend>Energy efficiency projects</legend>
+											Projects API by OSM_ID
 										</form>
 									</div>
 								</div>
@@ -162,6 +125,7 @@
 									<div class="span5">
 										<form>
 											<legend>Related data</legend>
+											Data API by OSM_ID
 										</form>
 									</div>
 								</div>
@@ -169,6 +133,7 @@
 									<div class="span5">
 										<form>
 											<legend>Related people</legend>
+											People API by OSM_ID
 										</form>
 									</div>
 								</div>
@@ -186,7 +151,6 @@
 								</div>
 							</div>
 					</div>
-
 				</div>
     		</div>
     	</div>

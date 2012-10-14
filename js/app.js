@@ -108,13 +108,81 @@ function init(){
 		$("#current_building").html("&nbsp;");
 	};
 	
-	var showDetails = function(){
+	var showDetails = function(e){
 		// Show details tab
 		$("#detailsTabLabel").show();
 		$("#mapTabLabel").removeClass('active');
 		$("#detailsTabLabel").addClass('active');
 		$("#mapTab").removeClass('active');
 		$("#detailsTab").addClass('active');
+		
+		// We could probably add a loading indicator
+		$('#buildingDetailsForm').html('Loading details ...');
+
+		// Clicked feature ID
+		var fid = e.feature.fid.replace(/BUILDINGS\./,"");
+
+		// AJAX call to the different APIs to retrieve the related data
+		// Direct building data
+		$.getJSON(   
+			'ws/building/read.php',  
+			{osm_id: fid,config:'bip'},  
+			function(json) {  
+				var s = "No details found for building id "+fid;
+
+				// If the response JSON contains some details (attributes), make an HTML table out of them
+				if (json.rows.length>0)
+				{
+					// Decoding the path to the different variables
+					var a=[];
+					var first_attribute=true;
+					$.each(json.rows[0].row, function (key, val) {
+						if (first_attribute){
+							a.push('<legend><h2>'+val+'</h2></legend>');
+							first_attribute=false;
+							a.push('<table class="table table-striped table-hover">');
+						}
+						else
+						{
+							a.push('<tr>');
+							if (key.match(/_url$/))
+							{
+								a.push('<td>' + key.replace(/_url/,"")+ '</td>');
+								if (val.match(/\.jpg/))
+								{
+									a.push('<td><img src="'+ val+'" class="img-polaroid" width=200 /></td>');
+								}
+								else
+								{
+									a.push('<td><a href="'+val+'">'+val+'</a></td>');
+								}
+							}
+							else
+							{
+								a.push('<td>' + key+ '</td>');
+								a.push('<td>' + val+ '</td>');
+							}
+							a.push('</tr>');
+						}
+					});
+					a.push('</table>');
+					s = a.join('');
+				}
+				
+				// Injecting the details retrieved, if any
+				$('#buildingDetailsForm').html(s);
+			}  
+		);				
+		
+		// TODO: project API
+		
+		
+		// TODO: data API
+
+
+		// TODO: people API
+		
+		
 	};
 
 	var hideDetails = function(){

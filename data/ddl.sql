@@ -16,28 +16,14 @@ CREATE DATABASE bip
 
 CREATE TABLE building
 (
-  id serial NOT NULL,
-  osm_id integer,
+  osm_id integer NOT NULL,
   "name" character varying(128),
   built_year character(4),
   height_above_ground_floors integer,
   height_above_ground_m integer,
-  CONSTRAINT building_pk PRIMARY KEY (id),
-  CONSTRAINT building_osm_uk UNIQUE (osm_id)
-)
-WITH (
-  OIDS=FALSE
+  photo_url character varying,
+  CONSTRAINT building_pk PRIMARY KEY (osm_id)
 );
-ALTER TABLE building OWNER TO postgres;
-
--- Index: building_osm_id_idx
-
--- DROP INDEX building_osm_id_idx;
-
-CREATE INDEX building_osm_id_idx
-  ON building
-  USING btree
-  (osm_id);
 
 
 -- Table: project_type
@@ -49,11 +35,7 @@ CREATE TABLE project_type
   code integer NOT NULL,
   label character varying(128),
   CONSTRAINT project_type_pk PRIMARY KEY (code)
-)
-WITH (
-  OIDS=FALSE
 );
-ALTER TABLE project_type OWNER TO postgres;
 
 
 
@@ -73,11 +55,7 @@ CREATE TABLE project
   CONSTRAINT project_type_fk FOREIGN KEY ("type")
       REFERENCES project_type (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
 );
-ALTER TABLE project OWNER TO postgres;
 
 -- Index: fki_project_type_fk
 
@@ -99,25 +77,21 @@ CREATE TABLE building_project
   id_project integer NOT NULL,
   CONSTRAINT building_project_pk PRIMARY KEY (id_building, id_project),
   CONSTRAINT building_project_building_fk FOREIGN KEY (id_building)
-      REFERENCES building (id) MATCH SIMPLE
+      REFERENCES building (osm_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT building_project_project_fk FOREIGN KEY (id_project)
       REFERENCES project (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
 );
-ALTER TABLE building_project OWNER TO postgres;
-
--- Index: fki_building_project_project_fk
-
--- DROP INDEX fki_building_project_project_fk;
 
 CREATE INDEX fki_building_project_project_fk
   ON building_project
   USING btree
-  (id_project);
-
+  (id_project)
+  
+CREATE INDEX fki_building_project_building_fk
+  ON building_project
+  USING btree
+  (id_building)  
 
 
