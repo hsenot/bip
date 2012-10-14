@@ -128,42 +128,46 @@ function init(){
 			'ws/building/read.php',  
 			{osm_id: fid,config:'bip'},  
 			function(json) {  
-				var s = "No details found for building id "+fid;
+				var s = "No further detail found for building id "+fid;
 
 				// If the response JSON contains some details (attributes), make an HTML table out of them
 				if (json.rows.length>0)
 				{
 					// Decoding the path to the different variables
 					var a=[];
-					var first_attribute=true;
+					
+					// Name as title - comes from OSM
+					a.push('<legend><h2>'+e.feature.attributes.name+'</h2></legend>');
+
+					// Then a table of attributes
+					a.push('<table class="table table-striped table-hover">');
+					
+					// Permalink as OSM_ID - comes from OSM
+					a.push('<tr>');
+					a.push('<td>' + 'Permalink' + '</td>');
+					a.push('<td>' + '<a href="building/'+fid+'">'+fid+'</a>' + '</td>');
+					a.push('</tr>');					
+					
 					$.each(json.rows[0].row, function (key, val) {
-						if (first_attribute){
-							a.push('<legend><h2>'+val+'</h2></legend>');
-							first_attribute=false;
-							a.push('<table class="table table-striped table-hover">');
-						}
-						else
+						a.push('<tr>');
+						if (key.match(/_url$/))
 						{
-							a.push('<tr>');
-							if (key.match(/_url$/))
+							a.push('<td>' + key.replace(/_url/,"")+ '</td>');
+							if (val.match(/\.jpg/))
 							{
-								a.push('<td>' + key.replace(/_url/,"")+ '</td>');
-								if (val.match(/\.jpg/))
-								{
-									a.push('<td><img src="'+ val+'" class="img-polaroid" width=200 /></td>');
-								}
-								else
-								{
-									a.push('<td><a href="'+val+'">'+val+'</a></td>');
-								}
+								a.push('<td><img src="'+ val+'" class="img-polaroid" width=200 /></td>');
 							}
 							else
 							{
-								a.push('<td>' + key+ '</td>');
-								a.push('<td>' + val+ '</td>');
+								a.push('<td><a href="'+val+'">'+val+'</a></td>');
 							}
-							a.push('</tr>');
 						}
+						else
+						{
+							a.push('<td>' + key+ '</td>');
+							a.push('<td>' + val+ '</td>');
+						}
+						a.push('</tr>');
 					});
 					a.push('</table>');
 					s = a.join('');
