@@ -137,14 +137,23 @@ function init(){
 					var a=[];
 					
 					// Name as title - comes from OSM
-					a.push('<legend><h2>'+e.feature.attributes.name+'</h2></legend>');
+					var bn = e.feature.attributes.name;
+					if (!(bn))
+					{
+						bn = 'This building has no name';
+						a.push('<legend>'+bn+'</legend>');
+					}
+					else
+					{
+						a.push('<legend><h2>'+bn+'</h2></legend>');
+					}
 
 					// Then a table of attributes
 					a.push('<table class="table table-striped table-hover">');
 					
 					// Permalink as OSM_ID - comes from OSM
 					a.push('<tr>');
-					a.push('<td>' + 'Permalink' + '</td>');
+					a.push('<td>' + 'Permalink (OSM ID)' + '</td>');
 					a.push('<td>' + '<a href="building/'+fid+'">'+fid+'</a>' + '</td>');
 					a.push('</tr>');					
 					
@@ -179,6 +188,43 @@ function init(){
 		);				
 		
 		// TODO: project API
+		
+		// Call to the project API to retrieve existing projects 
+		
+		
+		// Present them as a table?
+
+
+		// Form to be able to enter a new project for a given building
+		//$('#buildingProjectsForm').html('');
+		
+		// Value necessary for the form submission
+		$('#addProjectButton').click(function(){
+			// Format and control values
+			
+			
+			// Send a POST request 
+			var postUrl = "ws/project/write.php?callback=?";  
+
+			$.post(
+					postUrl,
+					{
+						osm_id: fid,
+						config: 'bip',		
+						desc: 		encodeURI($('#addProjectDesc').val()),
+						fund: 		$('#addProjectFund').val(),
+						cost: 		$('#addProjectCost').val(),
+						payback: 		$('#addProjectPayback').val(),
+						emission: 		$('#addProjectEmission').val()
+					},  
+					function(responseText){  
+						alert("Submitted");
+					},  
+					"json"
+			);
+		});
+		
+		
 		
 		
 		// TODO: data API

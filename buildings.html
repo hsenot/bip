@@ -115,9 +115,39 @@
 								</div>
 								<div class="row">
 									<div class="span5">
-										<form>
+										<form id='buildingProjectsForm'>
 											<legend>Energy efficiency projects</legend>
-											Projects API by OSM_ID
+										</form>
+										<form id='buildingAddProjectForm'>
+											<legend>Add a new project</legend>
+											<label>Description</label>
+											<textarea rows="3" id='addProjectDesc'></textarea>
+											<label>Funding</label>
+											<select id='addProjectFund'>
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+											<label>Cost</label>
+											<div class="input-prepend">
+												<span class="add-on">$</span><input type="text" id='addProjectCost'>
+											</div>
+											<label>Payback period</label>
+											<div class="input-append">
+												<input type="text" id='addProjectPayback'><span class="add-on">year(s)</span>
+											</div>
+											<label>Emission reduction</label>
+											<div class="input-append">
+												<input type="text" id='addProjectEmission'><span class="add-on">t CO2-e/year</span>
+											</div>
+
+											<div class="form-actions">
+												<input class="btn" type="button" value="Cancel" id="cancelButton">
+												<input class="btn btn-primary" type="button" value="Add" id="addProjectButton">
+											</div>
+
 										</form>
 									</div>
 								</div>
