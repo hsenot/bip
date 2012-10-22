@@ -16,7 +16,7 @@
       }
     </style>
     <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
+	<link href="../tagmanager/bootstrap-tagmanager.css" rel="stylesheet" type="text/css" />
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -58,7 +58,7 @@
 		    	<div class="tab-pane active" id="dashboardTab">
 
 					<div class="well">
-						<h1>Projects are making it happen</h1>
+						<h1>Projects are how people make it happen</h1>
 						<p>Section detailing the initiatives, programs and projects undertook (or currently undertaken) to tackle energy efficiency and carbon emission reduction. A project is a set of activities, within 1 or more buildings, with one or more people, supported by 0 or more data streams.</p>
 						<p>Wiki-style library of energy efficiency inititatives, tagged, substantiated by data, tied to buildings (optional?) and involving people (implementers, advisers)</p>
 						<p>Ranking by price / payback / complexity / type of grant / subsidy / funding, user ratings a la TripAdvisor</p>
@@ -103,6 +103,18 @@
 
 						<div class="row">
 							<div class="span8 offset2">
+								<form id='projectTagsForm'>
+									<input type="text" name="tags" placeholder="Tags" class="tagManager"/>
+									<div class="form-actions">
+										<input class="btn" type="button" value="Cancel" id="tagCancelButton">
+										<input class="btn btn-primary" type="button" value="Save" id="tagSaveButton">
+									</div>
+								<form>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="span8 offset2">
 								<form>
 									<legend><h2>Data</h2></legend>
 									Data API by PID
@@ -138,7 +150,8 @@
 	<!-- based on http://encosia.com/3-reasons-why-you-should-let-google-host-jquery-for-you/ -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 	<script src="../bootstrap/js/bootstrap.js"></script>
-    <script src="js/project.js"></script>     
+	<script type="text/javascript" src="../tagmanager/bootstrap-tagmanager.js"></script>
+ 	<script src="js/project.js"></script>     
 	<script>
 	
 		var showProjectDetails;

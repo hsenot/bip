@@ -73,10 +73,52 @@
 		
 	// TODO: multiple buildings for a project API
 
+	$.getJSON(   
+		'ws/project/tag_read.php',  
+		{pid: pid,config:'bip'},  
+		function(json) {
+			var tag_array=[];
+			
+			// Build an array of tags, which we use to initialise the component
+			$.each(json.rows, function (r) {
+				tag_array.push(json.rows[r].row.label);
+			});
+
+			// Initialise the tag manager			
+			$(".tagManager").tagsManager({
+				prefilled: tag_array,
+				// blink options used to detect and signal duplicate tags
+				blinkBGColor_1: '#FFFF9C',
+				blinkBGColor_2: '#CDE69C',
+				preventSubmitOnEnter: true,
+				// can use comma or enter to type in a new tag
+				delimeters:[188,13],
+				hiddenTagListName:'projectTagList'
+			});		
+
+	});
+	
+	$('#tagSaveButton').click(function(){
+		// Saving the tags associated to this project
+		var postUrl =  "ws/project/tag_write.php?callback=?";
+		$.post(
+				postUrl,
+				{
+					pid: pid,
+					config: 'bip',		
+					tags: $('input[name=projectTagList]').val()
+				},  
+				function(responseText){  
+					alert("Submitted");
+				},  
+				"json"
+		);		
+	});
+
+
 	// TODO: data API
 
 	// TODO: people API
-		
 		
 };
 
