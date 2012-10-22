@@ -32,14 +32,16 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = "SELECT name, photo_url as \"Photo_url\",built_year as \"Built in\",height_above_ground_m as \"Height (m)\" FROM building WHERE osm_id=".$osm_id;
+	// First we create the project
+	$sql = "select bp.id_project as id,p.description as \"Description\" from project p,building_project bp where p.id=bp.id_project and bp.id_building=".$osm_id;
 	$sql = sanitizeSQL($sql);
+	//echo $sql;
 	$pgconn = pgConnection();
 
 	/*** fetch into an PDOStatement object ***/
     $recordSet = $pgconn->prepare($sql);
     $recordSet->execute();
-
+    
 	if ($format == 'xml') {
 		require_once("../inc/xml.pdo.inc.php");
 		header("Content-Type: text/xml");

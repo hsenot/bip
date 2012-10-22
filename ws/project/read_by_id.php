@@ -20,8 +20,8 @@ try {
 	else
 	{ $format = 'json'; }
 	
-	if (isset($_REQUEST['osm_id'])) 
-	{ $osm_id = $_REQUEST['osm_id'];}
+	if (isset($_REQUEST['id'])) 
+	{ $id = $_REQUEST['id'];}
 	else 
 	{ trigger_error("Caught Exception: the web service requires a parameter: osm_id", E_USER_ERROR);}
 
@@ -32,14 +32,16 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = "SELECT name, photo_url as \"Photo_url\",built_year as \"Built in\",height_above_ground_m as \"Height (m)\" FROM building WHERE osm_id=".$osm_id;
+	// First we create the project
+	$sql = "select b.osm_id,p.id as id,p.description as \"Description\", p.cost as \"Cost ($)\",p.payback_period as \"Payback Period (years)\", yearly_emission_reduction_t as \"Estimated CO2-e reduction (t/yr)\",(select pft.label from project_funding_type pft where pft.code=p.funding) as \"Funding source\" from project p,building_project bp,building b where p.id=bp.id_project and b.osm_id=bp.id_building and p.id=".$id;
 	$sql = sanitizeSQL($sql);
+	//echo $sql;
 	$pgconn = pgConnection();
 
 	/*** fetch into an PDOStatement object ***/
     $recordSet = $pgconn->prepare($sql);
     $recordSet->execute();
-
+    
 	if ($format == 'xml') {
 		require_once("../inc/xml.pdo.inc.php");
 		header("Content-Type: text/xml");

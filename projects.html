@@ -48,34 +48,120 @@
     </div>
 
     <div class="container">
+		<div class="tabbable"> <!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs">
+				<li id="dashboardTabLabel" class="active"><a href="#dashboardTab" data-toggle="tab">Dashboard</a></li>
+				<li id="searchTabLabel"><a href="#searchTab" data-toggle="tab">Search</a></li>
+				<li id="detailsTabLabel" class="hide"><a href="#detailsTab" data-toggle="tab">Details</a></li>
+			</ul>
+		    <div class="tab-content">
+		    	<div class="tab-pane active" id="dashboardTab">
 
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>Hi, let's talk about projects!</h1>
-          <p>Section detailing the initiatives, programs and projects undertook (or currently undertaken) to tackle energy efficiency and carbon emission reduction. A project is a set of activities, within 1 or more buildings, with one or more people, supported by 0 or more data streams.</p>
-        <p>Wiki-style library of energy efficiency inititatives, categorised by type, by situation, substantiated by data, tied to buildings (optional?) and involving people (implementers, advisers)</p>
-        <p>Ranking by price / payback / complexity / type of grant / subsidy / funding, user ratings a la TripAdvisor</p>
-        <p>Links to full case studies as proof</p>
-		<p>Double points to share an experience that was unsuccessful (sharing something that worked is a double bonus anyway) => careful not to provide a platform to destroy reputations ...</p>
-		<p>Narrative: how they did it
-        <p><a class="btn btn-primary btn-large">Get started &raquo;</a></p>
-      </div>
+					<div class="well">
+						<h1>Projects are making it happen</h1>
+						<p>Section detailing the initiatives, programs and projects undertook (or currently undertaken) to tackle energy efficiency and carbon emission reduction. A project is a set of activities, within 1 or more buildings, with one or more people, supported by 0 or more data streams.</p>
+						<p>Wiki-style library of energy efficiency inititatives, tagged, substantiated by data, tied to buildings (optional?) and involving people (implementers, advisers)</p>
+						<p>Ranking by price / payback / complexity / type of grant / subsidy / funding, user ratings a la TripAdvisor</p>
+						<p>Links to full case studies as proof</p>
+						<p>Double points to share an experience that was unsuccessful (sharing something that worked is a double bonus anyway) => careful not to provide a platform to destroy reputations ...</p>
+						<p>Narrative: how they did it
+					</div>
+					
+					<div class="row">
+						<div class="span4"><div class="well"><h2>News 1</h2></div></div>
+						<div class="span4"><div class="well"><h2>News 2</h2></div></div>
+						<div class="span4"><div class="well"><h2>News 3</h2></div></div>
+					</div>
 
-      <hr>
+					<div class="row">
+						<div class="span4"><div class="well"><h2>Average / median</h2></div></div>
+						<div class="span4"><div class="well"><h2>Ranking</h2></div></div>
+						<div class="span4"><div class="well"><h2>Tip of the day</h2></div></div>
+					</div>
+					
+	    		</div>
 
-      <footer>
-        <p align="center">Developers: plug your data with the API or fork the platform code on GitHub.</p>
-      </footer>
+		    	<div class="tab-pane" id="searchTab">
+					<div class="well" id="search_box" style="text-align: center">
+						<form class="form-search">
+							<input type="text" class="input-large search-query">
+							<button class="btn btn-small" href="#"><i class="icon-search"></i></button>
+							<p id="current_building"></p>
+						</form>
+					</div>
+	    		</div>
+
+		    	<div class="tab-pane" id="detailsTab">
+					<div class="well" id="project_details">
+						<div class="row">
+							<div class="span8 offset2">
+								<form id='projectDetailsForm'>
+									<legend><h2>Project details</h2></legend>
+								<form>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="span8 offset2">
+								<form>
+									<legend><h2>Data</h2></legend>
+									Data API by PID
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="span8 offset2">
+								<form>
+									<legend><h2>People</h2></legend>
+									People API by PID
+								</form>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<footer>
+			<p align="center">Developers: plug your data with the API or fork the platform code on GitHub.</p>
+		</footer>
 
     </div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    
 	<!-- Letting Google host and serve jQuery for us -->
 	<!-- based on http://encosia.com/3-reasons-why-you-should-let-google-host-jquery-for-you/ -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 	<script src="../bootstrap/js/bootstrap.js"></script>
+    <script src="js/project.js"></script>     
+	<script>
+	
+		var showProjectDetails;
+
+		function getURLParameter(name) {
+			return decodeURI(
+				(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+			);
+		}
+		
+		$(document).ready(function () {
+
+			// Checking if a building number has been passed
+			var url_pid = getURLParameter('pid');
+			if (url_pid !== "null")
+			{
+				// Then we bring the detail tab and the right building details
+				showProjectDetails(url_pid);
+			}
+			
+		});
+		
+		
+	</script>
   </body>
 </html>

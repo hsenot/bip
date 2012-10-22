@@ -17,7 +17,7 @@
 			padding-top: 60px;
 		}
 
-		.tab-content > #tab2.active {
+		.tab-content > #mapTab.active {
 			display: block;
 			padding: 0px;
 		}
@@ -65,14 +65,13 @@
     <div class="container">
 		<div class="tabbable"> <!-- Only required for left/right tabs -->
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab1" data-toggle="tab">Dashboard</a></li>
+				<li id="dashboardTabLabel" class="active"><a href="#dashboardTab" data-toggle="tab">Dashboard</a></li>
 				<li id="mapTabLabel"><a href="#mapTab" data-toggle="tab">Search</a></li>
 				<li id="detailsTabLabel" class="hide"><a href="#detailsTab" data-toggle="tab">Details</a></li>
 			</ul>
 		    <div class="tab-content">
-		    	<div class="tab-pane active" id="tab1">
+		    	<div class="tab-pane active" id="dashboardTab">
 
-					<!-- Main hero unit for a primary marketing message or call to action -->
 					<div class="well">
 						<h1>Buildings are for people</h1>
 					</div>
@@ -92,129 +91,129 @@
 	    		</div>
 
 		    	<div class="tab-pane" id="mapTab">
-
-							<div class="well" id="search_box" style="text-align: center">
-								<form class="form-search">
-									<input type="text" class="input-large search-query">
-									<button type="submit" class="btn">Search</button>
-									<p id="current_building"></p>
-								</form>
-							</div>
-							<div id="map" class="smallmap"></div>
-
+					<div class="well" id="search_box" style="text-align: center">
+						<form class="form-search">
+							<input type="text" class="input-large search-query">
+							<button class="btn btn-small" href="#"><i class="icon-search"></i></button>
+							<p id="current_building"></p>
+						</form>
+					</div>
+					<div id="map" class="smallmap"></div>
 	    		</div>
 
 		    	<div class="tab-pane" id="detailsTab">
-							<div class="well" id="building_details">
-								<div class="row">
-									<div class="span3">
-										<form id='buildingDetailsForm'>
-											<legend><h2>Building name</h2></legend>
-										<form>
-									</div>
+					<div class="well" id="building_details">
+						<div class="row">
+							<div class="span8 offset2">
+								<form id='buildingDetailsForm'>
+									<legend><h2>Building name</h2></legend>
+								<form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="span8 offset2">
+								<div id='buildingProjectsTable'>
 								</div>
-								<div class="row">
-									<div class="span5">
-										<form id='buildingProjectsForm'>
-											<legend>Energy efficiency projects</legend>
-										</form>
-										<form id='buildingAddProjectForm'>
-											<legend>Add a new project</legend>
-											<label>Description</label>
-											<textarea rows="3" id='addProjectDesc'></textarea>
-											<label>Funding</label>
-											<select id='addProjectFund'>
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
-											</select>
-											<label>Cost</label>
-											<div class="input-prepend">
-												<span class="add-on">$</span><input type="text" id='addProjectCost'>
-											</div>
-											<label>Payback period</label>
-											<div class="input-append">
-												<input type="text" id='addProjectPayback'><span class="add-on">year(s)</span>
-											</div>
-											<label>Emission reduction</label>
-											<div class="input-append">
-												<input type="text" id='addProjectEmission'><span class="add-on">t CO2-e/year</span>
-											</div>
-
-											<div class="form-actions">
-												<input class="btn" type="button" value="Cancel" id="cancelButton">
-												<input class="btn btn-primary" type="button" value="Add" id="addProjectButton">
-											</div>
-
-										</form>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span5">
-										<form>
-											<legend>Related data</legend>
-											Data API by OSM_ID
-										</form>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span5">
-										<form>
-											<legend>Related people</legend>
-											People API by OSM_ID
-										</form>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span5">
-										<form>
-											<legend>Related information and services</legend>
-											Google Street View
-											<br>Flickr/Panoramio
-											<br>Wikipedia
-											<br>Nearby Tweets
-											<br>User-uploaded photos and documents 
-										</form>
-									</div>
+								<a id="addProjectShowButton"><i class="icon-plus"></i>Add a new project</a>
+								<div id='addProjectForm' class="hide">
+									<form id='buildingAddProjectForm'>
+										<label>Description</label>
+										<textarea rows="3" id='addProjectDesc'></textarea>
+										<label>Funding</label>
+										<select id='addProjectFund'>
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+										</select>
+										<label>Cost</label>
+										<div class="input-prepend">
+											<span class="add-on">$</span><input type="text" id='addProjectCost'>
+										</div>
+										<label>Payback period</label>
+										<div class="input-append">
+											<input type="text" id='addProjectPayback'><span class="add-on">year(s)</span>
+										</div>
+										<label>Emission reduction</label>
+										<div class="input-append">
+											<input type="text" id='addProjectEmission'><span class="add-on">t CO2-e/year</span>
+										</div>
+										<div class="form-actions">
+											<input class="btn" type="button" value="Cancel" id="cancelButton">
+											<input class="btn btn-primary" type="button" value="Add" id="addProjectFormButton">
+										</div>
+									</form>
 								</div>
 							</div>
+						</div>
+						<div class="row">
+							<div class="span8 offset2">
+								<form>
+									<legend><h2>Data</h2></legend>
+									Data API by OSM_ID
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="span8 offset2">
+								<form>
+									<legend><h2>People</h2></legend>
+									People API by OSM_ID
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="span8 offset2">
+								<form>
+									<legend><h2>Other information & services</h2></legend>
+									Google Street View
+									<br>Flickr/Panoramio
+									<br>Wikipedia
+									<br>Nearby Tweets
+									<br>User-uploaded photos and documents 
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
-    		</div>
-    	</div>
-
-      <hr>
+			</div>
+		</div>
+	
+		<hr>
         
-      <footer>
-        <p align="center">Developers: plug your data with the API or fork the platform code on GitHub.</p>
-      </footer>
+		<footer>
+			<p align="center">Developers: plug your data with the API or fork the platform code on GitHub.</p>
+		</footer>
 
-    </div> <!-- /container -->
+	</div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../openlayers/OpenLayers.js"></script>
-    <script src="js/app.js"></script>    
 	<!-- Letting Google host and serve jQuery for us -->
 	<!-- based on http://encosia.com/3-reasons-why-you-should-let-google-host-jquery-for-you/ -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 	<script src="../bootstrap/js/bootstrap.js"></script>
+    <script src="js/building.js"></script> 
     <script>
+
+		var showBuildingDetails;
+
+		function getURLParameter(name) {
+			return decodeURI(
+				(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+			);
+		}
 
 		$(document).ready(function () {
 
-			// Thumbnail click brings the fully fledged photo
-			$('#buildingPhotoThumb').click(function(){
-				$('#buildingPhotoDetail').modal('show');
-			});
-			
-			// Clicking anywhere closes the modal window
-			$('#buildingPhotoDetail').click(function(){
-				$('#buildingPhotoDetail').modal('hide');
-			});
+			// Checking if a building number has been passed
+			var url_osm_id = getURLParameter('osm_id');
+			if (url_osm_id !== "null")
+			{
+				// Then we bring the detail tab and the right building details
+				showBuildingDetails(url_osm_id);
+			}
 
 			// Window resize function
 			var rsz = function(){
