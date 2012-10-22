@@ -32,9 +32,21 @@ try {
 	if (isset($_REQUEST['cost'])) 
 	{ $project_cost = $_REQUEST['cost'];}
 	if (isset($_REQUEST['payback'])) 
-	{ $project_payback = $_REQUEST['payback'];}
+	{ $project_payback = $_REQUEST['payback'];
+		if ($project_payback =='')
+		{
+			$project_payback = 'null';
+		}
+	}
+	
 	if (isset($_REQUEST['emission'])) 
-	{ $project_emission = $_REQUEST['emission'];}
+	{ $project_emission = $_REQUEST['emission'];
+		if ($project_emission =='')
+		{
+			$project_emission = 'null';
+		}	
+	}
+
 
 } 
 catch (Exception $e) {
@@ -44,7 +56,7 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 	// First we create the project
-	$sql = "INSERT INTO project (description,funding,cost,payback_period,yearly_emission_reduction_t) VALUES ('".$project_desc."',".$project_fund.",".$project_cost.",".$project_payback.",".$project_emission.") returning id";
+	$sql = "INSERT INTO project (description,funding,cost,payback_period,yearly_emission_reduction_t) VALUES ('".str_replace("'","''",$project_desc)."',".$project_fund.",".$project_cost.",".$project_payback.",".$project_emission.") returning id";
 	$sql = sanitizeSQL($sql);
 	//echo $sql;
 	$pgconn = pgConnection();
