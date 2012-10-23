@@ -113,7 +113,7 @@
 					tags: $('input[name=projectTagList]').val()
 				},  
 				function(responseText){  
-					alert("Submitted");
+					//alert("Submitted");
 				},  
 				"json"
 		);		

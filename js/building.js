@@ -93,71 +93,75 @@ var showBuildingDetails = function(fid){
 		}  
 	);				
 		
-	// TODO: project API
-	
-	// Call to the project API to retrieve existing projects 
-	$.getJSON(   
-		'ws/project/read_by_osm_id.php',  
-		{osm_id: fid,config:'bip'},  
-		function(json) {  
-			var s = "<legend>No energy efficiency project found</legend>";
-			if (json.rows.length>0)
-			{
-				var a=[];
-				a.push("<legend><h2>Energy efficiency projects</h2></legend>");
-				// Can we build the form in the JS and inject it entirely?
-				// What's the best way to present records in a grid / table with bootstrap?
-				a.push("<table class='table'>");
-
-				// Adding the column headers, but only once
-				a.push('<thead><tr>');						
-				$.each(json.rows[0].row, function (k,v) {
-					if (k !=="id")
-					{
-						a.push('<th>');
-						a.push(k);
-						a.push('</th>');						
-					}
-				});	
-				// Details column
-				a.push('<th>');
-				a.push('Details');
-				a.push('</th>');					
-				a.push('</tr></thead>');						
+	// Function to load energy efficiency projects for a building ID
+	var loadProjectsByBuilding = function(fid){
+		// Call to the project API to retrieve existing projects 
+		$.getJSON(   
+			'ws/project/read_by_osm_id.php',  
+			{osm_id: fid,config:'bip'},  
+			function(json) {  
+				var s = "<legend>No energy efficiency project found</legend>";
+				if (json.rows.length>0)
+				{
+					var a=[];
+					a.push("<legend><h2>Energy efficiency projects</h2></legend>");
 					
-				// On each row add an edit button with <a class="btn btn-small" href="#"><i class="icon-pencil"></i></a>
-				$.each(json.rows, function (r) {
-					a.push('<tr>');
-
-					var current_project_id;						
-					$.each(json.rows[r].row, function (k,v) {
-						if (k =="id")
+					// What's the best way to present records in a grid / table with bootstrap?
+					a.push("<table class='table'>");
+	
+					// Adding the column headers, but only once
+					a.push('<thead><tr>');						
+					$.each(json.rows[0].row, function (k,v) {
+						if (k !=="id")
 						{
-							current_project_id = v;
+							a.push('<th>');
+							a.push(k);
+							a.push('</th>');						
 						}
-						else
-						{
-							a.push('<td>');
-							a.push(v);
-							a.push('</td>');
-						}
+					});	
+					// Details column
+					a.push('<th>');
+					a.push('Details');
+					a.push('</th>');					
+					a.push('</tr></thead>');						
+						
+					// On each row add an edit button with <a class="btn btn-small" href="#"><i class="icon-pencil"></i></a>
+					$.each(json.rows, function (r) {
+						a.push('<tr>');
+	
+						var current_project_id;						
+						$.each(json.rows[r].row, function (k,v) {
+							if (k =="id")
+							{
+								current_project_id = v;
+							}
+							else
+							{
+								a.push('<td>');
+								a.push(v);
+								a.push('</td>');
+							}
+						});
+	
+						a.push('<td><a class="btn btn-small" href="projects.html?pid='+current_project_id+'"><i class="icon-search"></i></a></td>');					
+						a.push('</tr>');						
 					});
-
-					a.push('<td><a class="btn btn-small" href="projects.html?pid='+current_project_id+'"><i class="icon-search"></i></a></td>');					
-					a.push('</tr>');						
-				});
-
-				a.push("</table>");
-				s = a.join('');
+	
+					a.push("</table>");
+					s = a.join('');
+				}
+	
+				// Injecting the details retrieved, if any
+				$('#buildingProjectsTable').html(s);
 			}
+		);
+	};
 
-			// Injecting the details retrieved, if any
-			$('#buildingProjectsTable').html(s);
-		}
-	);
-		
-	// Showing / hiding form for new project input
-	$('#addProjectShowButton').click(function(){
+	// Loading those energy efficiency projects
+	loadProjectsByBuilding(fid);
+	
+	// Function to toggle the add new project form visibility
+	var toggleAddNewProjectForm = function(){
 		var f = $('#addProjectForm');
 		if (f.hasClass('hide'))
 		{
@@ -168,8 +172,18 @@ var showBuildingDetails = function(fid){
 		{
 			f.hide();
 			f.addClass('hide');
+
+			// Clearing the values as well
+			$('#buildingAddProjectForm').clearForm();
 		}
-	});
+	};
+	
+		
+	// Showing / hiding form for new project input
+	$('#addProjectShowButton').click(toggleAddNewProjectForm);
+
+	// Hiding the form (and clearing values) on cancel
+	$('#addProjectCancelButton').click(toggleAddNewProjectForm);
 		
 	// Value necessary for the form submission
 	$('#addProjectFormButton').click(function(){
@@ -191,10 +205,9 @@ var showBuildingDetails = function(fid){
 					emission: 		$('#addProjectEmission').val()
 				},  
 				function(responseText){  
-					//alert("Submitted");
-					// Reload the page to get a better presentation of the projects
-					window.location.href="buildings.html?osm_id="+fid;
-					
+					// Reload the projects table
+					loadProjectsByBuilding(fid);
+					toggleAddNewProjectForm();
 				},  
 				"json"
 		);
