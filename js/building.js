@@ -191,7 +191,10 @@ var showBuildingDetails = function(fid){
 					emission: 		$('#addProjectEmission').val()
 				},  
 				function(responseText){  
-					alert("Submitted");
+					//alert("Submitted");
+					// Reload the page to get a better presentation of the projects
+					window.location.href="buildings.html?osm_id="+fid;
+					
 				},  
 				"json"
 		);

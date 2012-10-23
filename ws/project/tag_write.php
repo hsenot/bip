@@ -104,9 +104,14 @@ try {
 		echo rs2xml($recordSet);
 	}
 	elseif ($format == 'json') {
-		require_once("../inc/json.pdo.inc.php");
+		//require_once("../inc/json.pdo.inc.php");
 		header("Content-Type: application/json");
-		echo "{\"total_rows\":\"1\",\"rows\":[{\"tags_updated\":\"".count($tagArray)."\"}]}";
+		$output='{"total_rows":"1","rows":[{"tags_updated":"'.count($tagArray).'"}]}';
+		//For jsonp
+		if (isset($_REQUEST['callback'])) {
+			$output = $_REQUEST['callback'] . '(' . $output . ')';
+		}		
+		echo $output;
 	}
 	else {
 		trigger_error("Caught Exception: format must be xml or json.", E_USER_ERROR);

@@ -56,7 +56,7 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 	// First we create the project
-	$sql = "INSERT INTO project (description,funding,cost,payback_period,yearly_emission_reduction_t) VALUES ('".str_replace("'","''",$project_desc)."',".$project_fund.",".$project_cost.",".$project_payback.",".$project_emission.") returning id";
+	$sql = "INSERT INTO project (description,funding,cost,payback_period,yearly_emission_reduction_t) VALUES ('".addslashes(urldecode($project_desc))."',".$project_fund.",".$project_cost.",".$project_payback.",".$project_emission.") returning id";
 	$sql = sanitizeSQL($sql);
 	//echo $sql;
 	$pgconn = pgConnection();
@@ -92,9 +92,14 @@ try {
 		echo rs2xml($recordSet);
 	}
 	elseif ($format == 'json') {
-		require_once("../inc/json.pdo.inc.php");
+		//require_once("../inc/json.pdo.inc.php");
 		header("Content-Type: application/json");
-		echo rs2json($recordSet);
+		$output='{"total_rows":"1","rows":[{"project_id":"'.$project_id.'"}]}';
+		//For jsonp
+		if (isset($_REQUEST['callback'])) {
+			$output = $_REQUEST['callback'] . '(' . $output . ')';
+		}		
+		echo $output;
 	}
 	else {
 		trigger_error("Caught Exception: format must be xml or json.", E_USER_ERROR);
