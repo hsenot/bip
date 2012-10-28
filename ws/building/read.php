@@ -32,7 +32,7 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = "SELECT name, photo_url as \"Photo_url\",built_year as \"Built in\",height_above_ground_m as \"Height (m)\" FROM building WHERE osm_id=".$osm_id;
+	$sql = "SELECT name, address as \"Address\",photo_url as \"Photo_url\",built_year as \"Built in\",height_above_ground_m as \"Height (m)\" FROM building WHERE osm_id=".$osm_id;
 	$sql = sanitizeSQL($sql);
 	$pgconn = pgConnection();
 
